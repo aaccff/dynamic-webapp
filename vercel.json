@@ -1,15 +1,28 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "server.mjs",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "server.mjs"
-    }
-  ]
-}
+    "version": 2,
+    "name": "dynamic-webapp",
+    "builds": [
+      {
+        "src": "client/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "client/build"
+        }
+      },
+      {
+        "src": "server.mjs",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "server.mjs"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/client/build/$1"
+      }
+    ]
+  }
+  
